@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zeno Pay — Open Your Account</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1d9e75;--green-dark:#0f6e56;--green-light:#e1f5ee;--green-border:#5dcaa5;
+  --navy:#0f2d52;--text:#1a1a2e;--text-muted:#6b7280;--text-hint:#9ca3af;
+  --bg:#ffffff;--bg-surface:#f8fafc;--border:rgba(0,0,0,0.09);--border-mid:rgba(0,0,0,0.16);
+  --radius:10px;--radius-lg:16px;--tr:0.36s cubic-bezier(0.4,0,0.2,1);
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#e8edf5;color:var(--text)}
+.shell{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:100%;max-width:980px;min-height:620px;background:var(--bg);border-radius:var(--radius-lg);display:flex;overflow:hidden;box-shadow:0 8px 48px rgba(0,0,0,0.13)}
+
+/* LEFT */
+.left{width:300px;min-width:300px;background:var(--navy);padding:2rem 1.6rem;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.left::before{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;background:rgba(255,255,255,0.03);border-radius:50%}
+.left::after{content:'';position:absolute;bottom:-60px;left:-60px;width:180px;height:180px;background:rgba(29,158,117,0.07);border-radius:50%}
+.logo{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.logo-icon{width:34px;height:34px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-icon i{color:#fff;font-size:17px}
+.logo-name{color:#fff;font-size:18px;font-weight:700;letter-spacing:-0.3px}
+.lc{flex:1;position:relative;z-index:1;margin-top:1.4rem}
+.lpd{transition:opacity var(--tr),transform var(--tr)}
+.lpd.out{opacity:0;transform:translateY(10px)}
+.tagline{color:#93c5e8;font-size:13px;line-height:1.65}
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:1rem}
+.pill{background:rgba(255,255,255,0.08);border:0.5px solid rgba(255,255,255,0.13);border-radius:20px;padding:4px 10px;display:inline-flex;align-items:center;gap:4px}
+.pv{color:#fff;font-size:11.5px;font-weight:700}.pl{color:#93c5e8;font-size:10.5px}
+.bens{margin-top:1.1rem}
+.ben{display:flex;align-items:flex-start;gap:8px;padding:0.5rem 0;border-bottom:0.5px solid rgba(255,255,255,0.06)}
+.ben:last-child{border-bottom:none}
+.bck{width:18px;height:18px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.bck i{color:#fff;font-size:10px}
+.btx{color:#d6eaf8;font-size:12px;line-height:1.5}
+.btx strong{color:#fff;font-weight:600}
+.prog-box{margin-top:1rem;background:rgba(29,158,117,0.18);border:0.5px solid rgba(29,158,117,0.35);border-radius:var(--radius);padding:10px 12px}
+.prog-box p{color:#5dcaa5;font-size:12px;line-height:1.5}
+.prog-box strong{color:#9fe1cb}
+.cklist{margin-top:1.1rem}
+.ci{display:flex;align-items:center;gap:8px;padding:0.38rem 0}
+.cidot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cidot.done{background:var(--green);border-color:var(--green)}
+.cidot.act{border-color:var(--green)}
+.cidot i{color:#fff;font-size:10px}
+.cidot span{color:rgba(255,255,255,0.35);font-size:10px;font-weight:600}
+.cidot.act span{color:var(--green)}
+.cilbl{font-size:12px;color:#93c5e8}
+.cilbl.act{color:#fff;font-weight:500}
+.lfoot{position:relative;z-index:1;margin-top:auto;padding-top:1rem;color:rgba(255,255,255,0.2);font-size:10.5px;line-height:1.5}
+
+/* RIGHT */
+.right{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:4px;background:#eef2f7}
+.topfill{height:4px;background:var(--green);transition:width 0.5s ease}
+.sdots{display:flex;align-items:center;gap:4px;padding:0.75rem 1.75rem 0}
+.sd{width:6px;height:6px;border-radius:50%;background:#e5e7eb;transition:all 0.3s}
+.sd.act{background:var(--green);width:18px;border-radius:3px}
+.sd.dn{background:var(--green-border)}
+.swrap{flex:1;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;padding:1.25rem 1.75rem 1rem;display:flex;flex-direction:column;opacity:0;transform:translateX(40px);transition:opacity var(--tr),transform var(--tr);pointer-events:none;overflow-y:auto}
+.screen.active{opacity:1;transform:translateX(0);pointer-events:all}
+.screen.exit{opacity:0;transform:translateX(-40px)}
+.slbl{font-size:10.5px;color:var(--text-hint);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:3px}
+.stitle{font-size:20px;font-weight:700;color:var(--text);margin-bottom:3px;letter-spacing:-0.3px}
+.ssub{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:1rem}
+.callout{background:var(--green-light);border:0.5px solid var(--green-border);border-radius:var(--radius);padding:9px 12px;display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+.callout i{color:var(--green);font-size:16px;flex-shrink:0;margin-top:1px}
+.callout p{font-size:12px;color:#085041;line-height:1.5}
+.callout p strong{color:#04342c}
+.why-box{background:#f0f7ff;border:0.5px solid #bfdbfe;border-radius:var(--radius);padding:9px 12px;display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+.why-box i{color:#2563eb;font-size:15px;flex-shrink:0;margin-top:1px}
+.why-box p{font-size:11.5px;color:#1e3a8a;line-height:1.5}
+.why-box p strong{color:#1e40af}
+label.fl{display:block;font-size:11.5px;color:var(--text-muted);margin-bottom:3px;font-weight:500}
+input[type=text],input[type=tel],input[type=email],input[type=password],select,textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border-mid);border-radius:var(--radius);font-size:13.5px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;transition:border-color 0.2s,box-shadow 0.2s;margin-bottom:10px;display:block}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(29,158,117,0.1)}
+textarea{resize:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two-col input{margin-bottom:0}
+.phone-row{display:flex;gap:7px;margin-bottom:10px}
+.phone-pre{padding:9px 11px;background:var(--bg-surface);border:1.5px solid var(--border-mid);border-radius:var(--radius);font-size:13px;color:var(--text-muted);white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.phone-row input{flex:1;margin-bottom:0}
+.ck-line{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text-muted);margin-bottom:9px}
+.ck-line input[type=checkbox]{width:14px;height:14px;accent-color:var(--green);cursor:pointer;margin:0;flex-shrink:0}
+.opt-card{border:1.5px solid var(--border-mid);border-radius:var(--radius);padding:10px 12px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color 0.2s,background 0.2s}
+.opt-card:hover{border-color:var(--green)}
+.opt-card.sel{border-color:var(--green);background:var(--green-light)}
+.rdot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border-mid);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.opt-card.sel .rdot{border-color:var(--green);background:var(--green)}
+.rdi{width:5px;height:5px;border-radius:50%;background:#fff}
+.otl{font-size:13px;font-weight:600;color:var(--text)}
+.osd{font-size:11.5px;color:var(--text-muted);margin-top:1px}
+.badge{display:inline-block;background:var(--green-light);color:#085041;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px;margin-left:6px}
+.otp-row{display:flex;gap:7px;margin-bottom:10px}
+.otp-row input{width:44px;height:48px;text-align:center;font-size:20px;font-weight:700;padding:0;margin:0;border-radius:var(--radius)}
+.doc-drop{border:1.5px dashed var(--border-mid);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer;color:var(--text-muted);font-size:12.5px;margin-bottom:10px;transition:border-color 0.2s,background 0.2s}
+.doc-drop:hover{border-color:var(--green);background:var(--green-light)}
+.doc-drop i{font-size:18px;display:block;margin-bottom:4px;color:var(--text-hint)}
+.inline-row{display:flex;gap:7px;margin-bottom:10px}
+.inline-row input{flex:1;margin-bottom:0}
+.vbtn{padding:9px 14px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background 0.2s;height:fit-content;align-self:flex-end;margin-bottom:0}
+.vbtn:hover{background:var(--green-dark)}
+.vbtn.done{background:#085041;cursor:default}
+.addr-box{background:var(--bg-surface);border:1.5px solid var(--green-border);border-radius:var(--radius);padding:10px 13px;margin-bottom:10px}
+.addr-box .addr-label{font-size:10.5px;color:var(--green-dark);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.addr-box .addr-val{font-size:13px;color:var(--text);line-height:1.6}
+.abar{padding:0.9rem 1.75rem 1.4rem;border-top:0.5px solid var(--border);background:var(--bg)}
+.bmain{width:100%;padding:12px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);font-size:14.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;transition:background 0.2s,transform 0.1s}
+.bmain:hover{background:var(--green-dark)}
+.bmain:active{transform:scale(0.99)}
+.bghost{width:100%;padding:9px;background:transparent;color:var(--text-muted);border:1.5px solid var(--border-mid);border-radius:var(--radius);font-size:13px;cursor:pointer;font-family:inherit;margin-top:7px;transition:background 0.2s}
+.bghost:hover{background:var(--bg-surface)}
+.notice{font-size:11px;color:var(--text-hint);text-align:center;margin-top:8px;line-height:1.5}
+.notice a{color:var(--green);text-decoration:none}
+.resend{font-size:12px;color:var(--text-muted);margin-top:3px}
+.resend a{color:var(--green);text-decoration:none;cursor:pointer}
+.section-sep{font-size:11px;font-weight:600;color:var(--text-hint);letter-spacing:0.5px;text-transform:uppercase;margin:12px 0 8px;display:flex;align-items:center;gap:8px}
+.section-sep::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Tooltip info bubble */
+.info-wrap{position:relative;display:inline-flex;align-items:center;margin-left:5px;vertical-align:middle}
+.info-icon{width:15px;height:15px;border-radius:50%;background:#e0e7ef;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#4b6484;font-weight:700;font-family:inherit;padding:0;transition:background 0.2s;flex-shrink:0}
+.info-icon:hover{background:#c7d8ed;color:#1e3a8a}
+.info-bubble{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:230px;background:#1e293b;color:#e2e8f0;font-size:11.5px;line-height:1.55;padding:9px 12px;border-radius:8px;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.25);pointer-events:none}
+.info-bubble::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1e293b}
+.info-wrap.open .info-bubble{display:block}
+
+/* Reg notice box above CTA */
+.reg-notice{background:#f8fafc;border:1px solid var(--border-mid);border-radius:var(--radius);padding:10px 13px;margin-bottom:10px}
+.rn-title{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.3px;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.rn-title i{color:var(--green);font-size:13px}
+.rn-body{font-size:11.5px;color:var(--text-muted);line-height:1.6}
+.rn-body a{color:var(--green);text-decoration:none}
+
+/* Left panel minimal variant for form-heavy screens */
+.left-minimal .lc-tagline{color:#93c5e8;font-size:13px;line-height:1.65;margin-top:1.2rem}
+.step-progress{margin-top:1.6rem}
+.sp-row{display:flex;align-items:center;gap:9px;padding:0.38rem 0}
+.sp-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sp-dot.done{background:var(--green);border-color:var(--green)}
+.sp-dot.act{border-color:var(--green)}
+.sp-dot i{color:#fff;font-size:10px}
+.sp-dot span{color:rgba(255,255,255,0.35);font-size:10px;font-weight:600}
+.sp-dot.act span{color:var(--green)}
+.sp-lbl{font-size:12px;color:#93c5e8}
+.sp-lbl.act{color:#fff;font-weight:500}
+.sp-connector{width:1px;height:10px;background:rgba(255,255,255,0.1);margin-left:9px}
+
+/* VIDEO KYC screen */
+.vkyc-wrap{display:flex;flex-direction:column;gap:12px}
+.vkyc-step{border:1.5px solid var(--border-mid);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:flex-start;gap:12px;position:relative;transition:border-color 0.3s,background 0.3s}
+.vkyc-step.active-step{border-color:var(--green);background:var(--green-light)}
+.vkyc-step.done-step{border-color:var(--green-border);background:#f0fdf8}
+.vstep-num{width:28px;height:28px;border-radius:50%;background:var(--bg-surface);border:2px solid var(--border-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;color:var(--text-muted)}
+.vkyc-step.active-step .vstep-num{background:var(--green);border-color:var(--green);color:#fff}
+.vkyc-step.done-step .vstep-num{background:var(--green-dark);border-color:var(--green-dark);color:#fff}
+.vstep-title{font-size:13px;font-weight:600;color:var(--text)}
+.vstep-desc{font-size:11.5px;color:var(--text-muted);margin-top:2px;line-height:1.5}
+.cam-preview{width:100%;height:120px;background:#1a1a2e;border-radius:var(--radius);margin-top:10px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.cam-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+.cam-circle{width:60px;height:60px;border-radius:50%;border:2px dashed rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center}
+.cam-circle i{color:rgba(255,255,255,0.6);font-size:24px}
+.cam-label{color:rgba(255,255,255,0.5);font-size:11px}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;position:absolute;top:10px;right:10px;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.security-strip{background:var(--navy);border-radius:var(--radius);padding:10px 13px;display:flex;align-items:center;gap:10px;margin-top:4px}
+.security-strip i{color:#5dcaa5;font-size:16px;flex-shrink:0}
+.security-strip p{color:#93c5e8;font-size:11.5px;line-height:1.4}
+
+/* DASHBOARD */
+#dash{display:none;flex-direction:column;min-height:100vh}
+.dash-nav{height:56px;background:var(--navy);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;flex-shrink:0}
+.nav-links{display:flex;gap:0;margin-left:1.5rem}
+.navl{padding:5px 12px;color:rgba(255,255,255,0.5);font-size:12.5px;cursor:pointer;border-radius:7px;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.navl:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.navl.active{color:#fff;background:rgba(29,158,117,0.3)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:9px}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.dash-body{flex:1;padding:1.5rem 1.75rem;background:#eef2f7;overflow-y:auto}
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
+.dh-left h1{font-size:20px;font-weight:700;color:var(--text)}
+.dh-left p{font-size:12.5px;color:var(--text-muted);margin-top:3px}
+.dh-right{display:flex;gap:7px}
+.dbtn{padding:8px 14px;border-radius:var(--radius);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;border:none;display:flex;align-items:center;gap:5px;transition:all 0.2s}
+.dbtn-primary{background:var(--green);color:#fff}
+.dbtn-primary:hover{background:var(--green-dark)}
+.dbtn-outline{background:var(--bg);color:var(--text-muted);border:1.5px solid var(--border-mid)}
+.dbtn-outline:hover{border-color:var(--green);color:var(--green)}
+.success-banner{background:linear-gradient(135deg,#0f6e56 0%,#1d9e75 50%,#5dcaa5 100%);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.success-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;background:rgba(255,255,255,0.06);border-radius:50%}
+.success-banner::after{content:'';position:absolute;right:60px;bottom:-20px;width:80px;height:80px;background:rgba(255,255,255,0.04);border-radius:50%}
+.sb-icon{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.sb-icon i{color:#fff;font-size:24px}
+.sb-text{position:relative;z-index:1}
+.sb-text h3{color:#fff;font-size:15px;font-weight:700}
+.sb-text p{color:rgba(255,255,255,0.85);font-size:12.5px;margin-top:3px}
+.sb-action{margin-left:auto;position:relative;z-index:1}
+.sb-btn{background:#fff;color:var(--green-dark);border:none;border-radius:var(--radius);padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all 0.2s}
+.sb-btn:hover{background:var(--green-light)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.1rem}
+.stat-card{background:var(--bg);border-radius:var(--radius-lg);padding:1rem 1.1rem;border:0.5px solid var(--border)}
+.stat-label{font-size:11px;color:var(--text-muted);font-weight:500;display:flex;align-items:center;gap:4px}
+.stat-val{font-size:22px;font-weight:700;color:var(--text);margin-top:5px;letter-spacing:-0.4px}
+.stat-sub{font-size:11px;margin-top:3px}
+.mid-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:10px;margin-bottom:1.1rem}
+.panel{background:var(--bg);border-radius:var(--radius-lg);padding:1.1rem;border:0.5px solid var(--border)}
+.panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem}
+.panel-title{font-size:13.5px;font-weight:600;color:var(--text)}
+.panel-link{font-size:12px;color:var(--green);cursor:pointer}
+.txn-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:0.5px solid var(--border)}
+.txn-row:last-child{border-bottom:none}
+.txn-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.txn-name{font-size:12.5px;font-weight:500;color:var(--text)}
+.txn-date{font-size:11px;color:var(--text-hint);margin-top:1px}
+.txn-amt{margin-left:auto;text-align:right}
+.txn-inr{font-size:12.5px;font-weight:700;color:var(--text)}
+.txn-usd{font-size:11px;color:var(--text-hint);margin-top:1px}
+.sp{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:8px}
+.sp-g{background:#d1fae5;color:#065f46}.sp-y{background:#fef3c7;color:#92400e}.sp-b{background:#dbeafe;color:#1e40af}
+.acct-card{border:0.5px solid var(--border);border-radius:var(--radius);padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:9px}
+.acct-cur{font-size:12.5px;font-weight:700;color:var(--text)}
+.acct-num{font-size:11px;color:var(--text-hint);margin-top:1px;font-family:monospace}
+.copy-btn{border:1px solid var(--border-mid);background:var(--bg-surface);color:var(--text-muted);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.2s;margin-left:auto}
+.copy-btn:hover{border-color:var(--green);color:var(--green)}
+.rate-card{background:var(--navy);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.1rem;display:flex;align-items:center;gap:0}
+.rc{flex:1;padding:0 1rem}
+.rc:first-child{padding-left:0}
+.rc:last-child{padding-right:0}
+.rc-title{color:#93c5e8;font-size:11px;font-weight:500}
+.rc-val{color:#fff;font-size:20px;font-weight:700;margin-top:2px;letter-spacing:-0.3px}
+.rc-sub{color:#5dcaa5;font-size:11px;margin-top:2px}
+.rdivider{width:1px;background:rgba(255,255,255,0.1);height:44px}
+.bottom-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.quick-card{background:var(--bg);border-radius:var(--radius-lg);padding:0.9rem;border:0.5px solid var(--border);cursor:pointer;transition:border-color 0.2s,transform 0.15s;text-align:center}
+.quick-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.qc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.qc-title{font-size:12px;font-weight:600;color:var(--text)}
+.qc-desc{font-size:10.5px;color:var(--text-muted);margin-top:2px;line-height:1.4}
+</style>
+</head>
+<body>
+
+<!-- ═══ ONBOARDING ═══ -->
+<div id="onboarding">
+<div class="shell">
+<div class="card">
+
+  <div class="left">
+    <div class="logo">
+      <div class="logo-icon"><i class="ti ti-send" aria-hidden="true"></i></div>
+      <span class="logo-name">Zeno Pay</span>
+    </div>
+    <div class="lc"><div class="lpd" id="lpd"></div></div>
+    <div class="lfoot">RBI compliant &nbsp;·&nbsp; 256-bit encrypted &nbsp;·&nbsp; Y Combinator backed</div>
+  </div>
+
+  <div class="right">
+    <div class="topbar"><div class="topfill" id="prog-bar" style="width:0%"></div></div>
+    <div class="sdots" id="sdots"></div>
+    <div class="swrap">
+
+      <!-- S0: Mobile + OTP (combined) -->
+      <div class="screen" id="s0">
+        <div class="slbl">Step 1 of 5 — Verify mobile</div>
+        <div class="stitle">Start earning globally</div>
+        <div class="ssub">Join 25,000+ Indian freelancers receiving payments from 160+ countries.</div>
+        <div class="callout">
+          <i class="ti ti-gift" aria-hidden="true"></i>
+          <p><strong>Limited offer:</strong> First 3 months — zero platform fees. No credit card needed.</p>
+        </div>
+        <label class="fl">Mobile number</label>
+        <div class="phone-row">
+          <div class="phone-pre">🇮🇳 +91</div>
+          <input type="tel" id="mobile" placeholder="Enter your 10-digit number" maxlength="10" style="margin-bottom:0" oninput="onMobileInput()">
+          <button class="vbtn" id="otp-send-btn" onclick="sendMobileOTP()" style="align-self:stretch">Send OTP</button>
+        </div>
+        <div class="ck-line" style="margin-top:6px">
+          <input type="checkbox" id="wa" checked>
+          <label for="wa">Get instant payment alerts on WhatsApp</label>
+        </div>
+
+        <!-- OTP section — hidden until OTP sent -->
+        <div id="otp-section" style="display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+          <label class="fl">Enter OTP sent to <strong id="mob-disp">+91 XXXXXXXXXX</strong> &nbsp;<span style="color:var(--green);cursor:pointer;font-size:11.5px" onclick="resetMobile()">Change</span></label>
+          <div class="otp-row" style="margin-top:6px">
+            <input type="text" maxlength="1" class="oi"><input type="text" maxlength="1" class="oi">
+            <input type="text" maxlength="1" class="oi"><input type="text" maxlength="1" class="oi">
+            <input type="text" maxlength="1" class="oi"><input type="text" maxlength="1" class="oi">
+          </div>
+          <p class="resend">Didn't get it? <a id="rl">Resend in <span id="rt">28</span>s</a></p>
+        </div>
+      </div>
+
+      <!-- S2: Business type -->
+      <div class="screen" id="s1">
+        <div class="slbl">Step 2 of 5 — Account type</div>
+        <div class="stitle">What kind of account?</div>
+        <div class="ssub">We tailor the KYC to your business — only the steps that apply to you.</div>
+        <div id="biz-opts">
+          <div class="opt-card sel" onclick="selOpt(this)">
+            <div class="rdot"><div class="rdi"></div></div>
+            <div><div class="otl">Freelancer / Self-employed <span class="badge">Fastest — 5 min</span></div><div class="osd">Personal PAN + Aadhaar only · No GST needed</div></div>
+          </div>
+          <div class="opt-card" onclick="selOpt(this)">
+            <div class="rdot"></div>
+            <div><div class="otl">Sole Proprietorship</div><div class="osd">Business under your name · GST optional</div></div>
+          </div>
+          <div class="opt-card" onclick="selOpt(this)">
+            <div class="rdot"></div>
+            <div><div class="otl">Private Limited / LLP</div><div class="osd">Registered company · PAN + MCA documents</div></div>
+          </div>
+          <div class="opt-card" onclick="selOpt(this)">
+            <div class="rdot"></div>
+            <div><div class="otl">Partnership</div><div class="osd">Partnership deed + beneficial owner details</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S3: Personal details -->
+      <div class="screen" id="s2">
+        <div class="slbl">Step 3 of 5 — Your details</div>
+        <div class="stitle">Tell us about you</div>
+        <div class="ssub">Just the basics — we'll match this against your PAN during verification.</div>
+        <div class="two-col" style="margin-bottom:10px">
+          <div><label class="fl">First name</label><input type="text" placeholder="As on PAN" style="margin-bottom:0"></div>
+          <div><label class="fl">Last name</label><input type="text" placeholder="As on PAN" style="margin-bottom:0"></div>
+        </div>
+        <label class="fl">Work email</label>
+        <input type="email" placeholder="you@example.com">
+        <label class="fl">What kind of work do you do?
+          <span class="info-wrap" id="iw-work"><button class="info-icon" onclick="toggleInfo('iw-work')" type="button">i</button><div class="info-bubble">Your work description sets the RBI "purpose code" on every inward remittance — this is required for your FIRC (Foreign Inward Remittance Certificate), which is your legal proof of receiving international income.</div></span>
+        </label>
+        <textarea rows="2" placeholder="e.g. Software developer building SaaS products for US clients"></textarea>
+        <label class="fl">LinkedIn / Website <span style="color:var(--text-hint);font-weight:400;font-size:11px">optional</span></label>
+        <input type="text" placeholder="https://linkedin.com/in/yourname">
+      </div>
+
+      <!-- S4: PAN + Aadhaar KYC -->
+      <div class="screen" id="s3">
+        <div class="slbl">Step 4 of 5 — Identity verification</div>
+        <div class="stitle">PAN &amp; Aadhaar verification</div>
+        <div class="ssub">We verify your identity as mandated by RBI for all cross-border payment accounts.</div>
+
+        <div class="section-sep">PAN number</div>
+        <label class="fl">Business / Personal PAN
+          <span class="info-wrap" id="iw-pan"><button class="info-icon" onclick="toggleInfo('iw-pan')" type="button">i</button><div class="info-bubble">RBI mandates PAN for all forex receipts above ₹50,000. It links income to your tax record and is required for issuing your FIRC — the legal certificate of receiving international income. For sole proprietors and freelancers, use your personal PAN.</div></span>
+        </label>
+        <div class="inline-row">
+          <input type="text" id="pan-inp" placeholder="ABCDE1234F" style="margin-bottom:0;text-transform:uppercase">
+          <button class="vbtn" id="pan-btn" onclick="verifyPAN()">Verify PAN</button>
+        </div>
+        <div id="pan-result" style="display:none" class="addr-box">
+          <div class="addr-label"><i class="ti ti-circle-check" style="color:var(--green);font-size:13px" aria-hidden="true"></i> PAN verified</div>
+          <div class="addr-val"><strong>Ekta Bharti</strong> &nbsp;·&nbsp; Individual &nbsp;·&nbsp; Active</div>
+        </div>
+        <label class="fl" style="margin-top:4px">Upload PAN card
+          <span class="info-wrap" id="iw-pandoc"><button class="info-icon" onclick="toggleInfo('iw-pandoc')" type="button">i</button><div class="info-bubble">A scanned copy of your PAN card is stored securely as proof of identity, required by RBI for account opening. It is never shared with any third party.</div></span>
+        </label>
+        <div class="doc-drop" onclick="this.innerHTML='<i class=\'ti ti-check\' style=\'color:var(--green)\'></i> <span style=\'color:var(--green);font-weight:600\'>PAN_card.pdf uploaded</span>'">
+          <i class="ti ti-upload" aria-hidden="true"></i>Drag &amp; drop or click to upload
+        </div>
+
+        <div class="section-sep">Aadhaar eKYC</div>
+        <label class="fl">Aadhaar number
+          <span class="info-wrap" id="iw-aadh"><button class="info-icon" onclick="toggleInfo('iw-aadh')" type="button">i</button><div class="info-bubble">Aadhaar eKYC via UIDAI's OTP API fetches your verified name, DOB, and address in seconds — replacing physical document submission entirely. Your 12-digit number is never stored on our servers; only the verified result is retained, as required under the DPDP Act 2023.</div></span>
+        </label>
+        <div class="inline-row">
+          <input type="text" id="aadh-inp" placeholder="XXXX XXXX XXXX" maxlength="14" style="margin-bottom:0;font-family:monospace;letter-spacing:1px">
+          <button class="vbtn" id="aadh-btn" onclick="sendAadhaarOTP()">Send OTP</button>
+        </div>
+        <div id="aadh-otp-wrap" style="display:none">
+          <label class="fl">OTP sent to your Aadhaar-linked mobile</label>
+          <div class="inline-row">
+            <input type="text" id="aadh-otp" placeholder="Enter 6-digit OTP" maxlength="6" style="margin-bottom:0">
+            <button class="vbtn" onclick="verifyAadhaar()">Verify</button>
+          </div>
+        </div>
+        <div id="addr-result" style="display:none" class="addr-box">
+          <div class="addr-label"><i class="ti ti-map-pin" style="color:var(--green);font-size:13px" aria-hidden="true"></i> Address retrieved from UIDAI</div>
+          <div class="addr-val">12, Lajpat Nagar — III, New Delhi, Delhi — 110024</div>
+        </div>
+        <div id="addr-confirm" style="display:none;margin-bottom:10px">
+          <label class="fl">Confirm address <span style="color:var(--text-hint);font-weight:400;font-size:11px">pre-filled from Aadhaar · editable</span></label>
+          <input type="text" placeholder="Street address" value="12, Lajpat Nagar — III">
+          <div class="two-col" style="margin-bottom:10px">
+            <input type="text" placeholder="City" value="New Delhi" style="margin-bottom:0">
+            <input type="text" placeholder="State" value="Delhi" style="margin-bottom:0">
+          </div>
+          <div class="two-col">
+            <input type="text" placeholder="PIN code" value="110024" style="margin-bottom:0">
+            <input type="text" placeholder="Country" value="India" style="margin-bottom:0">
+          </div>
+        </div>
+
+        <div class="section-sep">Bank account
+          <span class="info-wrap" id="iw-bank"><button class="info-icon" onclick="toggleInfo('iw-bank')" type="button">i</button><div class="info-bubble" style="left:auto;right:0;transform:none">Your bank account is verified via a penny-drop (₹1 transfer) to ensure payouts reach the right account. The account name is cross-checked with your PAN to prevent fraud. No charges are applied.</div></span>
+        </div>
+        <div class="two-col" style="margin-bottom:10px">
+          <div><label class="fl">Account number</label><input type="text" placeholder="Account number" style="margin-bottom:0"></div>
+          <div><label class="fl">IFSC code</label><input type="text" placeholder="HDFC0001234" style="margin-bottom:0"></div>
+        </div>
+      </div>
+
+      <!-- S5: Video KYC -->
+      <div class="screen" id="s4">
+        <div class="slbl">Step 5 of 5 — Video KYC</div>
+        <div class="stitle">Quick video verification</div>
+        <div class="ssub">A 2-minute live check — replaces your branch visit entirely. Keep your PAN card handy.</div>
+
+        <div class="cam-preview" style="height:180px;border-radius:var(--radius-lg);margin-bottom:16px">
+          <div class="rec-dot" id="rec-dot" style="display:none" aria-hidden="true"></div>
+          <div class="cam-overlay" id="cam-idle">
+            <div class="cam-circle"><i class="ti ti-video" aria-hidden="true"></i></div>
+            <span class="cam-label">Camera will activate when you start</span>
+          </div>
+          <div class="cam-overlay" id="cam-live" style="display:none">
+            <div class="cam-circle" style="border-color:rgba(93,202,165,0.7);animation:pulse 1.5s infinite"><i class="ti ti-user" style="color:rgba(93,202,165,0.9)" aria-hidden="true"></i></div>
+            <span class="cam-label" style="color:rgba(93,202,165,0.9)" id="cam-status">Hold PAN card up to camera</span>
+          </div>
+        </div>
+        <style>@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(93,202,165,0.4)}50%{box-shadow:0 0 0 8px rgba(93,202,165,0)}}</style>
+
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <div style="flex:1;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px">
+            <i class="ti ti-id-badge" style="color:var(--green);font-size:18px;flex-shrink:0" aria-hidden="true"></i>
+            <div><div style="font-size:12px;font-weight:600;color:var(--text)">PAN card ready</div><div style="font-size:11px;color:var(--text-muted)">Hold it up when asked</div></div>
+          </div>
+          <div style="flex:1;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px">
+            <i class="ti ti-sun" style="color:#f59e0b;font-size:18px;flex-shrink:0" aria-hidden="true"></i>
+            <div><div style="font-size:12px;font-weight:600;color:var(--text)">Good lighting</div><div style="font-size:11px;color:var(--text-muted)">Face well-lit, no shadows</div></div>
+          </div>
+          <div style="flex:1;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:8px">
+            <i class="ti ti-wifi" style="color:#3b82f6;font-size:18px;flex-shrink:0" aria-hidden="true"></i>
+            <div><div style="font-size:12px;font-weight:600;color:var(--text)">Stable internet</div><div style="font-size:11px;color:var(--text-muted)">Wi-Fi preferred</div></div>
+          </div>
+        </div>
+
+        <button class="bmain" id="vkyc-start-btn" style="display:none"></button>
+
+        <div style="height:4px"></div>
+      </div>
+
+    </div><!-- end swrap -->
+    <div class="abar" id="abar"></div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="dash">
+  <div class="dash-nav">
+    <div class="logo">
+      <div class="logo-icon" style="width:28px;height:28px;border-radius:7px"><i class="ti ti-send" style="font-size:14px" aria-hidden="true"></i></div>
+      <span class="logo-name" style="font-size:15px;color:#fff">Zeno Pay</span>
+    </div>
+    <div class="nav-links">
+      <div class="navl active"><i class="ti ti-layout-dashboard" aria-hidden="true"></i>Dashboard</div>
+      <div class="navl"><i class="ti ti-send" aria-hidden="true"></i>Payments</div>
+      <div class="navl"><i class="ti ti-file-invoice" aria-hidden="true"></i>Invoices</div>
+      <div class="navl"><i class="ti ti-building-bank" aria-hidden="true"></i>Accounts</div>
+      <div class="navl"><i class="ti ti-chart-bar" aria-hidden="true"></i>Analytics</div>
+    </div>
+    <div class="nav-right">
+      <div style="background:rgba(29,158,117,0.25);border:0.5px solid rgba(93,202,165,0.5);border-radius:20px;padding:4px 11px;color:#5dcaa5;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px">
+        <div style="width:6px;height:6px;border-radius:50%;background:#5dcaa5"></div> KYC Verified
+      </div>
+      <div class="nav-avatar">EK</div>
+    </div>
+  </div>
+
+  <div class="dash-body">
+
+    <div class="dash-header">
+      <div class="dh-left">
+        <h1>Good morning, Ekta! 👋</h1>
+        <p>Your account is active — start sharing your virtual account with clients.</p>
+      </div>
+      <div class="dh-right">
+        <button class="dbtn dbtn-outline"><i class="ti ti-file-invoice" aria-hidden="true"></i> Create Invoice</button>
+        <button class="dbtn dbtn-primary"><i class="ti ti-plus" aria-hidden="true"></i> Add Client</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS BANNER replacing kyc-banner -->
+    <div class="success-banner">
+      <div class="sb-icon"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+      <div class="sb-text">
+        <h3>KYC complete — your account is live! Start receiving payments now.</h3>
+        <p>Your USD, GBP and EUR virtual accounts are ready. Share them with international clients today.</p>
+      </div>
+      <div class="sb-action">
+        <button class="sb-btn"><i class="ti ti-copy" style="font-size:13px;margin-right:4px" aria-hidden="true"></i>Copy account details</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-currency-dollar" style="font-size:12px;color:var(--green)" aria-hidden="true"></i>Total received</div>
+        <div class="stat-val">$3,000</div>
+        <div class="stat-sub" style="color:var(--green);font-weight:600"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> First payment queued!</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-trending-up" style="font-size:12px;color:#3b82f6" aria-hidden="true"></i>This month (INR)</div>
+        <div class="stat-val">₹2.52L</div>
+        <div class="stat-sub" style="color:#3b82f6">At ₹84.32 per $1</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-users" style="font-size:12px;color:#f59e0b" aria-hidden="true"></i>Active clients</div>
+        <div class="stat-val">1</div>
+        <div class="stat-sub"><span style="color:var(--green);font-size:11px;cursor:pointer">+ Invite more clients</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><i class="ti ti-piggy-bank" style="font-size:12px;color:#8b5cf6" aria-hidden="true"></i>Fees saved</div>
+        <div class="stat-val">₹6,240</div>
+        <div class="stat-sub" style="color:#8b5cf6">vs. bank wire transfers</div>
+      </div>
+    </div>
+
+    <div class="rate-card">
+      <div class="rc">
+        <div class="rc-title">Live USD → INR</div>
+        <div class="rc-val">₹84.32</div>
+        <div class="rc-sub"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> 0.3% better than SBI</div>
+      </div>
+      <div class="rdivider"></div>
+      <div class="rc">
+        <div class="rc-title">Live GBP → INR</div>
+        <div class="rc-val">₹107.18</div>
+        <div class="rc-sub"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> 0.5% better than HDFC</div>
+      </div>
+      <div class="rdivider"></div>
+      <div class="rc">
+        <div class="rc-title">Live EUR → INR</div>
+        <div class="rc-val">₹90.55</div>
+        <div class="rc-sub"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> 0.4% better than Axis</div>
+      </div>
+      <div class="rdivider"></div>
+      <div class="rc" style="text-align:right;padding-right:0">
+        <div class="rc-title" style="margin-bottom:6px">Zero fees — always</div>
+        <span style="background:rgba(29,158,117,0.25);border:0.5px solid #5dcaa5;border-radius:20px;padding:4px 12px;color:#5dcaa5;font-size:11px;font-weight:700">₹0 transaction fee</span>
+      </div>
+    </div>
+
+    <div class="mid-grid">
+      <div class="panel">
+        <div class="panel-hdr"><span class="panel-title">Recent transactions</span><a class="panel-link">View all</a></div>
+        <div class="txn-row">
+          <div class="txn-icon" style="background:#dbeafe"><i class="ti ti-brand-stripe" style="color:#1e40af;font-size:15px" aria-hidden="true"></i></div>
+          <div><div class="txn-name">Stripe Inc.</div><div class="txn-date">Today, 9:42 AM</div></div>
+          <div class="txn-amt"><div class="txn-inr">₹2,52,960</div><div class="txn-usd">$3,000 USD</div></div>
+          <span class="sp sp-g"><i class="ti ti-check" style="font-size:9px"></i> Received</span>
+        </div>
+        <div class="txn-row">
+          <div class="txn-icon" style="background:#f3e8ff"><i class="ti ti-building" style="color:#7c3aed;font-size:15px" aria-hidden="true"></i></div>
+          <div><div class="txn-name">Toptal LLC</div><div class="txn-date">Expected: Tomorrow</div></div>
+          <div class="txn-amt"><div class="txn-inr">₹84,320</div><div class="txn-usd">$1,000 USD</div></div>
+          <span class="sp sp-y"><i class="ti ti-clock" style="font-size:9px"></i> Pending</span>
+        </div>
+        <div class="txn-row">
+          <div class="txn-icon" style="background:#dcfce7"><i class="ti ti-brand-upwork" style="color:#16a34a;font-size:15px" aria-hidden="true"></i></div>
+          <div><div class="txn-name">Upwork Contract</div><div class="txn-date">May 20, 2026</div></div>
+          <div class="txn-amt"><div class="txn-inr">₹1,68,640</div><div class="txn-usd">$2,000 USD</div></div>
+          <span class="sp sp-b"><i class="ti ti-arrow-down" style="font-size:9px"></i> Settled</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-hdr"><span class="panel-title">Virtual accounts</span><a class="panel-link">All accounts</a></div>
+        <div class="acct-card">
+          <div style="font-size:18px">🇺🇸</div>
+          <div><div class="acct-cur">USD Account</div><div class="acct-num">021000021 · 7489562341</div></div>
+          <button class="copy-btn" onclick="this.textContent='Copied!'">Copy</button>
+        </div>
+        <div class="acct-card">
+          <div style="font-size:18px">🇬🇧</div>
+          <div><div class="acct-cur">GBP Account</div><div class="acct-num">SC: 230580 · 18274930</div></div>
+          <button class="copy-btn" onclick="this.textContent='Copied!'">Copy</button>
+        </div>
+        <div class="acct-card">
+          <div style="font-size:18px">🇪🇺</div>
+          <div><div class="acct-cur">EUR IBAN</div><div class="acct-num">DE89 3704 0044 0532 0130 00</div></div>
+          <button class="copy-btn" onclick="this.textContent='Copied!'">Copy</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-hint);text-align:center;margin-top:6px">Share these details with international clients</p>
+      </div>
+    </div>
+
+    <div class="bottom-grid">
+      <div class="quick-card">
+        <div class="qc-icon" style="background:#dbeafe"><i class="ti ti-file-invoice" style="color:#1e40af;font-size:19px" aria-hidden="true"></i></div>
+        <div class="qc-title">Create Invoice</div>
+        <div class="qc-desc">Send in USD, GBP, EUR</div>
+      </div>
+      <div class="quick-card">
+        <div class="qc-icon" style="background:#d1fae5"><i class="ti ti-users" style="color:#065f46;font-size:19px" aria-hidden="true"></i></div>
+        <div class="qc-title">Invite Clients</div>
+        <div class="qc-desc">Queue payments instantly</div>
+      </div>
+      <div class="quick-card">
+        <div class="qc-icon" style="background:#fef3c7"><i class="ti ti-calculator" style="color:#92400e;font-size:19px" aria-hidden="true"></i></div>
+        <div class="qc-title">FX Calculator</div>
+        <div class="qc-desc">See exact INR payout</div>
+      </div>
+      <div class="quick-card" onclick="document.getElementById('dash').style.display='none';document.getElementById('onboarding').style.display='block';goTo(0,true)">
+        <div class="qc-icon" style="background:#f3e8ff"><i class="ti ti-refresh" style="color:#7c3aed;font-size:19px" aria-hidden="true"></i></div>
+        <div class="qc-title">Restart Demo</div>
+        <div class="qc-desc">Back to onboarding flow</div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- end dash -->
+
+<script>
+var cur=0,total=5;
+var pct=[0,20,40,60,80,100];
+var stepNames=['Verify mobile','Business type','Your details','PAN & Aadhaar','Video KYC'];
+
+// Left panel taglines per step
+var taglines=[
+  "Get paid from 160+ countries. Zero transaction fees, forever.",
+  "Pick your entity type — only relevant steps will follow.",
+  "Almost there — filling your details now.",
+  "Identity check — RBI mandated, 100% paperless.",
+  "Last step — 2-min video check replaces branch visit."
+];
+
+// Pills shown only on step 0
+var pills=[["₹0","txn fee"],["24h","payout"],["160+","countries"],["2%","better FX"]];
+
+function renderLeft(n){
+  var lpd=document.getElementById('lpd');
+  lpd.classList.add('out');
+  setTimeout(function(){
+    var h='';
+    h+='<p class="tagline">'+taglines[Math.min(n,4)]+'</p>';
+    // Pills only on step 0
+    if(n===0){
+      h+='<div class="pills">';
+      pills.forEach(function(p){h+='<div class="pill"><span class="pv">'+p[0]+'</span><span class="pl">'+p[1]+'</span></div>';});
+      h+='</div>';
+    }
+    // Consistent step checklist on ALL screens
+    h+='<div class="step-progress" style="margin-top:1.5rem">';
+    stepNames.forEach(function(it,i){
+      var dn=i<n, ac=i===n;
+      h+='<div class="sp-row">';
+      h+='<div class="sp-dot'+(dn?' done':ac?' act':'')+'">';
+      h+=dn?'<i class="ti ti-check"></i>':'<span>'+(i+1)+'</span>';
+      h+='</div>';
+      h+='<span class="sp-lbl'+(ac?' act':dn?' done-lbl':'')+'">'+it+'</span>';
+      h+='</div>';
+      if(i<stepNames.length-1)h+='<div class="sp-connector"></div>';
+    });
+    h+='</div>';
+    lpd.innerHTML=h;lpd.classList.remove('out');
+  },200);
+}
+
+function renderDots(n){
+  var h='';
+  for(var i=0;i<=total;i++){
+    h+='<div class="sd'+(i<n?' dn':i===n?' act':'')+'"></div>';
+    if(i<total)h+='<div style="flex:1;height:1px;background:'+(i<n?'#5dcaa5':'#e5e7eb')+';margin:0 2px"></div>';
+  }
+  document.getElementById('sdots').innerHTML=h;
+}
+
+// Collapsed 2-line notices with expand
+function makeNotice(icon,title,full){
+  var id='rn-'+Math.random().toString(36).slice(2,7);
+  return '<div class="reg-notice" style="margin-bottom:10px">'+
+    '<div class="rn-title"><i class="ti ti-'+icon+'"></i> '+title+'</div>'+
+    '<div class="rn-body rn-collapsed" id="'+id+'">'+full+'</div>'+
+    '<button class="rn-toggle" onclick="toggleNotice(\''+id+'\')">Read more</button>'+
+  '</div>';
+}
+
+var s3Notice=makeNotice('shield-lock','Why we collect these details',
+  'Under RBI\'s FEMA &amp; PMLA, all entities receiving cross-border payments must provide verified identity and business details. Your name is matched to PAN; your work description sets the RBI purpose code for every remittance — enabling your FIRC (Foreign Inward Remittance Certificate), your legal proof of international income. Data is encrypted, stored in India, never sold. <a href="#">Privacy Policy</a>');
+
+var s4Notice=makeNotice('shield-lock','RBI mandate &amp; data protection',
+  'FEMA &amp; PMLA require identity verification for all forex accounts. PAN is mandatory for receipts above ₹50,000. Your Aadhaar number is <strong>never stored</strong> — only the UIDAI-verified result is retained, as per DPDP Act 2023. Bank is verified via penny-drop (₹1) to prevent fraud. All data is encrypted at rest, stored in India, deleted when no longer required. <a href="#">Privacy Policy</a> · <a href="#">RBI Guidelines</a>');
+
+var s5Notice=makeNotice('shield-lock','Why Video KYC &amp; data protection',
+  'RBI\'s V-CIP circular (2020) mandates a live video check for fully digital account opening under PMLA. The session is end-to-end encrypted, conducted by a certified agent, and stored in India for 2 years as required by RBI — then permanently deleted. Never shared with third parties. By proceeding you consent as per <a href="#">Privacy Policy</a> and <a href="#">RBI V-CIP guidelines</a>.');
+
+function toggleNotice(id){
+  var el=document.getElementById(id);
+  var btn=el.nextElementSibling;
+  var collapsed=el.classList.contains('rn-collapsed');
+  el.classList.toggle('rn-collapsed',!collapsed);
+  btn.textContent=collapsed?'Show less':'Read more';
+}
+
+var s2Notice=s3Notice; // reuse — same content, now screen 2
+
+var actions=[
+  {lbl:'Verify &amp; Continue <i class="ti ti-arrow-right"></i>',
+   notice:'<p class="notice" style="margin-top:8px">🔒 Encrypted &amp; never sold. <a href="#">Privacy Policy</a></p>',
+   fn:function(){goTo(1);}},
+  {lbl:'Continue <i class="ti ti-arrow-right"></i>',notice:'',fn:function(){goTo(2);}},
+  {lbl:'Save &amp; Continue <i class="ti ti-arrow-right"></i>',notice:s2Notice,fn:function(){goTo(3);}},
+  {lbl:'Save &amp; Continue to Video KYC <i class="ti ti-video"></i>',notice:s4Notice,fn:function(){goTo(4);}},
+  {lbl:'Save &amp; Start Video KYC <i class="ti ti-shield-check"></i>',notice:s5Notice,fn:function(){startVKYC();}},
+];
+
+function renderAction(n){
+  var a=actions[n];
+  var h=(a.notice||'')+'<button class="bmain" id="mb">'+a.lbl+'</button>';
+  document.getElementById('abar').innerHTML=h;
+  document.getElementById('mb').onclick=a.fn;
+}
+
+function goTo(n,instant){
+  var p=cur;
+  if(!instant){
+    document.getElementById('s'+p).classList.add('exit');
+    setTimeout(function(){document.getElementById('s'+p).classList.remove('active','exit');},380);
+    cur=n;setTimeout(function(){document.getElementById('s'+cur).classList.add('active');},20);
+  } else {
+    document.getElementById('s'+p).classList.remove('active','exit');
+    cur=n;document.getElementById('s'+cur).classList.add('active');
+  }
+  document.getElementById('prog-bar').style.width=pct[n]+'%';
+  renderDots(n);renderLeft(n);renderAction(n);
+  document.querySelectorAll('.info-wrap.open').forEach(function(w){w.classList.remove('open');});
+}
+
+function showDash(){
+  document.getElementById('onboarding').style.display='none';
+  var d=document.getElementById('dash');
+  d.style.display='flex';d.style.flexDirection='column';d.style.minHeight='100vh';
+}
+
+function selOpt(el){
+  document.querySelectorAll('#biz-opts .opt-card').forEach(function(c){c.classList.remove('sel');c.querySelector('.rdot').innerHTML='';});
+  el.classList.add('sel');el.querySelector('.rdot').innerHTML='<div class="rdi"></div>';
+}
+
+function toggleInfo(id){
+  var w=document.getElementById(id);
+  var wasOpen=w.classList.contains('open');
+  document.querySelectorAll('.info-wrap.open').forEach(function(x){x.classList.remove('open');});
+  if(!wasOpen)w.classList.add('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.info-wrap'))document.querySelectorAll('.info-wrap.open').forEach(function(w){w.classList.remove('open');});
+});
+
+function verifyPAN(){
+  var btn=document.getElementById('pan-btn');
+  btn.textContent='Verifying...';btn.disabled=true;
+  setTimeout(function(){btn.textContent='✓ Verified';btn.classList.add('done');document.getElementById('pan-result').style.display='block';},1200);
+}
+function sendAadhaarOTP(){
+  var btn=document.getElementById('aadh-btn');
+  btn.textContent='Sending...';btn.disabled=true;
+  setTimeout(function(){btn.textContent='OTP Sent';document.getElementById('aadh-otp-wrap').style.display='block';},1000);
+}
+function verifyAadhaar(){
+  setTimeout(function(){document.getElementById('addr-result').style.display='block';document.getElementById('addr-confirm').style.display='block';},800);
+}
+
+function startVKYC(){
+  // Hide the in-screen start button, show camera live
+  document.getElementById('vkyc-start-btn').style.display='none';
+  document.getElementById('cam-idle').style.display='none';
+  document.getElementById('cam-live').style.display='flex';
+  document.getElementById('rec-dot').style.display='block';
+  // Update abar CTA to disabled during session
+  document.getElementById('mb').disabled=true;
+  document.getElementById('mb').innerHTML='<i class="ti ti-loader" style="animation:spin 1s linear infinite"></i> Video KYC in progress...';
+  var steps=['Hold your PAN card up to camera','Liveness check — blink twice','Agent reviewing your session...','✓ Verified! Your account is now live.'];
+  var si=0;
+  document.getElementById('cam-status').textContent=steps[0];
+  var iv=setInterval(function(){
+    si++;
+    if(si<steps.length)document.getElementById('cam-status').textContent=steps[si];
+    if(si===steps.length-1){
+      clearInterval(iv);
+      document.getElementById('rec-dot').style.display='none';
+      setTimeout(function(){
+        // Update abar to "All done" which launches dashboard
+        var mb=document.getElementById('mb');
+        mb.disabled=false;
+        mb.innerHTML='All done — Go to Dashboard <i class="ti ti-layout-dashboard"></i>';
+        mb.onclick=showDash;
+      },1000);
+    }
+  },2000);
+}
+document.head.insertAdjacentHTML('beforeend','<style>@keyframes spin{to{transform:rotate(360deg)}}.sp-lbl.done-lbl{color:rgba(255,255,255,0.55)}.rn-collapsed{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.rn-toggle{background:none;border:none;color:var(--green);font-size:11px;cursor:pointer;padding:2px 0;font-family:inherit;display:block;margin-top:3px}</style>');
+
+// Mobile + OTP combined helpers
+function sendMobileOTP(){
+  var m=document.getElementById('mobile').value.trim();
+  if(!m||m.length<10){
+    document.getElementById('mobile').style.borderColor='#ef4444';
+    document.getElementById('mobile').focus();
+    return;
+  }
+  document.getElementById('mobile').style.borderColor='';
+  var btn=document.getElementById('otp-send-btn');
+  btn.textContent='Sending...';btn.disabled=true;
+  document.getElementById('mob-disp').textContent='+91 '+m;
+  setTimeout(function(){
+    btn.textContent='OTP Sent ✓';btn.style.background='#085041';
+    var sec=document.getElementById('otp-section');
+    sec.style.display='block';
+    sec.style.opacity='0';sec.style.transform='translateY(8px)';
+    setTimeout(function(){sec.style.transition='opacity 0.3s,transform 0.3s';sec.style.opacity='1';sec.style.transform='translateY(0)';},10);
+    document.querySelector('.oi').focus();
+    startTimer();
+  },900);
+}
+
+function resetMobile(){
+  document.getElementById('otp-section').style.display='none';
+  var btn=document.getElementById('otp-send-btn');
+  btn.textContent='Send OTP';btn.disabled=false;btn.style.background='';
+  document.getElementById('mobile').value='';
+  document.getElementById('mobile').focus();
+}
+
+var otps=document.querySelectorAll('.oi');
+otps.forEach(function(inp,i){
+  inp.addEventListener('input',function(){if(this.value&&i<otps.length-1)otps[i+1].focus();});
+  inp.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!this.value&&i>0)otps[i-1].focus();});
+});
+
+var tmr;
+function startTimer(){
+  clearInterval(tmr);var t=28;
+  document.getElementById('rt').textContent=t;
+  tmr=setInterval(function(){t--;if(t<=0){clearInterval(tmr);document.getElementById('rl').textContent='Resend now';return;}document.getElementById('rt').textContent=t;},1000);
+}
+
+window.addEventListener('DOMContentLoaded',function(){goTo(0,true);});
+</script>
+</body>
+</html>
