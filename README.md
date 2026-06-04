@@ -1,2 +1,4 @@
-Zeno Pay is a cross-border payment platform built for Indian freelancers and businesses to receive international payments from 160+ countries with zero transaction fees.
+Created a cross border payment platform working protoype using Claude AI iteratively
+_______________________________________________________________________
+Cross border payment App is a cross-border payment platform built for Indian freelancers and businesses to receive international payments from 160+ countries with zero transaction fees.
 It offers instant virtual bank accounts in USD, GBP, and EUR — shareable with clients immediately after a fully digital, 5-minute onboarding. The KYC flow is 100% paperless, using PAN API verification, Aadhaar eKYC via UIDAI, and RBI-mandated Video KYC (V-CIP) — replacing any branch visit. FX rates are up to 2% better than traditional banks, with payouts to any Indian bank account within 24 hours. Built on RBI/FEMA/PMLA compliance with DPDP Act data protection, it gives Indian earners a bank-grade global payment infrastructure without the bank-grade friction.
